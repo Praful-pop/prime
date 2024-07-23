@@ -1,0 +1,62 @@
+<odoo>
+    <record id="view_employee_form_custom" model="ir.ui.view">
+        <field name="name">hr.employee.form.custom</field>
+        <field name="model">hr.employee</field>
+        <field name="inherit_id" ref="hr.view_employee_form"/>
+        <field name="arch" type="xml">
+            <form string="Employee">
+                <sheet>
+                    <group>
+                        <field name="name"/>
+                        <field name="work_phone"/>
+                        <field name="mobile_phone"/>
+                        <field name="work_email"/>
+                        <field name="department_id"/>
+                        <field name="job_id"/>
+                        <field name="parent_id"/>
+                        <field name="coach_id"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+</odoo>
+
+
+
+
+
+<!-- my_employee_module/views/email_template.xml -->
+<!--<odoo>-->
+<!--    <record id="email_template_employee_info" model="mail.template">-->
+<!--        <field name="name">Employee Info Email</field>-->
+<!--        <field name="model_id" ref="hr.model_hr_employee"/>-->
+<!--        <field name="subject">Employee Information Request</field>-->
+<!--        <field name="email_from">${object.company_id.email or ''}</field>-->
+<!--        <field name="email_to">${object.work_email}</field>-->
+<!--        <field name="body_html">-->
+<!--            <![CDATA[-->
+<!--            <p>Dear ${object.name},</p>-->
+<!--            <p>Please click the button below to provide your information:</p>-->
+<!--            <p><a href="/web#id=${object.id}&model=hr.employee&view_type=form&action=your_form_action_id" style="padding: 10px; background-color: #5C9DED; color: white; text-decoration: none;">Provide Info</a></p>-->
+<!--            <p>Thank you!</p>-->
+<!--            ]]>-->
+<!--        </field>-->
+<!--    </record>-->
+<!--</odoo>-->
+<!--<odoo>-->
+<!--    <record id="email_template_employee_info" model="mail.template">-->
+<!--        <field name="name">Employee Information Email</field>-->
+<!--        <field name="email_from">${object.email or 'no-reply@example.com'}</field>-->
+<!--        <field name="subject">Employee Information</field>-->
+<!--        <field name="body_html">-->
+<!--            <![CDATA[-->
+<!--            <p>Hello ${object.name},</p>-->
+<!--            <p>Here is your employee information.</p>-->
+<!--            <p>Best regards,</p>-->
+<!--            <p>Your Company</p>-->
+<!--            ]]>-->
+<!--        </field>-->
+<!--        <field name="model_id" ref="hr.model_hr_employee"/>-->
+<!--    </record>-->
+<!--</odoo>-->
