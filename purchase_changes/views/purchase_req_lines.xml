@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+
+    <!--  To add the requisition action  -->
+    <record id="name_new" model="ir.ui.view">
+        <field name="name">New practise</field>
+        <field name="model">purchase.order</field>
+        <field name="inherit_id" ref="purchase.purchase_order_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name ='partner_id']"
+                   position="after">
+            </xpath>
+<!--            <xpath expr="//page[@name ='products']/field[@name ='order_line']/tree/field[@name = 'product_id']"-->
+<!--                   position="before">-->
+<!--                <field name="requisition_action"/>-->
+<!--            </xpath>-->
+        </field>
+    </record>
+
+    <!--  To add source and destination location  -->
+    <record id="quality_new_inherited_view_form" model="ir.ui.view">
+        <field name="name">quality.new.inherited.view.form</field>
+        <field name="model">quality.point</field>
+        <field name="inherit_id" ref="quality.quality_point_view_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//page[@name ='instructions']" position="after">
+                <page string="Control Sample" name="control_sample">
+                    <group>
+                        <field name="src_location"/>
+                        <field name="destination_location"/>
+                    </group>
+                </page>
+            </xpath>
+        </field>
+    </record>
+
+    <!--    To add the location type -->
+    <record id="name_location_field" model="ir.ui.view">
+        <field name="name">New location field</field>
+        <field name="model">stock.location</field>
+        <field name="inherit_id" ref="stock.view_location_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name ='replenish_location']"
+                   position="after">
+                <field name="is_location_type"/>
+            </xpath>
+        </field>
+    </record>
+
+    <!--    To add inward, expiry date-->
+    <record id="view_pharmacy_product_form" model="ir.ui.view">
+        <field name="name">pharmacy.product.form</field>
+        <field name="model">product.template</field>
+        <field name="inherit_id" ref="product.product_template_only_form_view"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='detailed_type']" position="after">
+                <field name="inward_date" invisible="1"/>
+                <field name="expiry_date"/>
+                <field name="expire_in"/>
+                <field name="expiry_date_calculated"/>
+                <field name="is_control_sample_taken"/>
+                <field name="control_sample" invisible="not(is_control_sample_taken)"
+                       readonly="not(is_control_sample_taken)"
+                       required="is_control_sample_taken"/>
+                <field name="manufacturing_control_sample" invisible="not(is_control_sample_taken)"
+                   readonly="not(is_control_sample_taken)"
+                   required="is_control_sample_taken"/>
+            </xpath>
+        </field>
+    </record>
+
+    <!--    to add the category active or excipient for the product-->
+    <record id="view_pharmacy_product_catogeyry_form" model="ir.ui.view">
+        <field name="name">product.category.form</field>
+        <field name="model">product.category</field>
+        <field name="inherit_id" ref="product.product_category_form_view"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='parent_id']" position="after">
+                <field name="type_of_category"/>
+            </xpath>
+        </field>
+    </record>
+
+    <!--    To add the banner if the product expires within one month-->
+    <record id="view_product_template_form_inherit" model="ir.ui.view">
+        <field name="name">product.template.form.inherit</field>
+        <field name="model">product.template</field>
+        <field name="inherit_id" ref="product.product_template_only_form_view"/>
+        <field name="arch" type="xml">
+
+            <xpath expr="//field[@name='company_id']" position="after">
+                <field name="expiry_warning" invisible="1"/>
+                <div class="alert alert-danger" role="alert" invisible="not expiry_warning">
+                    Product will expire within one month
+                </div>
+            </xpath>
+
+        </field>
+    </record>
+
+
+
+    <!--    Code to send the expiry email about the products one month before-->
+    <record id="ir_cron_lead_reminder" model="ir.cron">
+        <field name="name">Expiry of Product Remainder</field>
+        <field name="model_id" ref="model_product_template"/>
+        <field name="state">code</field>
+        <field name="code">model.send_expiry_notifications()</field>
+        <field name="interval_number">1</field>
+        <field name="interval_type">days</field>
+        <field name="numbercall">-1</field>
+    </record>
+
+<!--    Code to move the expired products to the reanalysis location-->
+    <record id="ir_cron_lead_reminder_new" model="ir.cron">
+        <field name="name">Expiry of the products</field>
+        <field name="model_id" ref="model_stock_picking"/>
+        <field name="state">code</field>
+        <field name="code">model.move_expired_products()</field>
+        <field name="interval_number">1</field>
+        <field name="interval_type">days</field>
+        <field name="numbercall">-1</field>
+    </record>
+
+</odoo>

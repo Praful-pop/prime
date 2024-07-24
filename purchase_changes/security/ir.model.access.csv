@@ -1,0 +1,4 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_purchase_newchanges,purchase.newchanges,model_purchase_newchanges,base.group_user,1,1,1,1
+access_pur_req_lines,pur.req.lines,model_pur_req_lines,base.group_user,1,1,1,1
+access_crm_lead_order_line,crm.lead.order.line,model_crm_lead_order_line,base.group_user,1,1,1,1

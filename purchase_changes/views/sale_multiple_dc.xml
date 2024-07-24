@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+
+    <record id="view_purchase_order_form_inherited1" model="ir.ui.view">
+        <field name="name">purchase.order.form.inherited1</field>
+        <field name="model">purchase.order</field>
+        <field name="inherit_id" ref="purchase.purchase_order_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='date_order']" position="after">
+                <field name="main_pharma_sale_order_id"/>
+            </xpath>
+        </field>
+    </record>
+    <record id="view_crm_lead_form_inherited" model="ir.ui.view">
+        <field name="name">view.crm.lead.form.inherited</field>
+        <field name="model">crm.lead</field>
+        <field name="inherit_id" ref="crm.crm_lead_view_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//page[@name='lead']" position="after">
+                <page string="Products">
+                    <field name="order_line_ids">
+                        <tree editable="bottom" class="o_list_view">
+                            <field name="product_id" width="30%"/>
+                            <field name="demand" width="20%"/>
+                        </tree>
+                    </field>
+                </page>
+            </xpath>
+        </field>
+    </record>
+
+
+</odoo>

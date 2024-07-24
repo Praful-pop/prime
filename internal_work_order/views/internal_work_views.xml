@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <record model="ir.ui.view" id="purchase_req_tree">
+        <field name="name">new_module list</field>
+        <field name="model">internal.work.order</field>
+        <field name="arch" type="xml">
+            <tree>
+
+                <field name="name"/>
+                <field name="employee_name"/>
+                <field name="date"/>
+
+            </tree>
+        </field>
+    </record>
+    <record id="internal_req_new_form" model="ir.ui.view">
+        <field name="name">internal.work</field>
+        <field name="model">internal.work.order</field>
+        <field name="arch" type="xml">
+            <form string="Internal Work Order" class="o_internal_order">
+                <header>
+                    <button name="button_confirm_new" invisible="state != 'draft'" string="Confirm" type="object"
+                            class="oe_highlight" data-hotkey="g"/>
+                    <button name="reset_to_draft" invisible="state in ('draft','mo created')" string="Set to Draft"
+                            type="object"
+                            class="oe_highlight" data-hotkey="g"/>
+                    <button name="button_reject" invisible="state in ('draft','cancel','mo created')" string="Reject"
+                            type="object"
+                            class="oe_highlight" data-hotkey="g"/>
+                    <button name="internal_order1" invisible="state in ('draft','cancel','mo created')"
+                            string="Create MO"
+                            type="object" class="oe_highlight" data-hotkey="g"/>
+                    <field name="state" widget="statusbar"
+                           statusbar_visible="draft,confirm,mo created,cancel" readonly="1"/>
+                </header>
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button type="object" name="action_my_manufacturing_button"
+                                class="oe_stat_button"
+                                icon="fa-wrench"
+                                invisible="state in ('draft', 'confirm', 'cancel')">
+                            <div class="o_field_widget o_stat_info">
+
+                                <span class="o_stat_text">Manufacturing</span>
+                            </div>
+                        </button>
+                    </div>
+                    <div class="oe_title">
+                        <span class="o_form_label" invisible="state in ('draft', 'confirm','mo created','cancel')">
+                            Internal Work Order
+                        </span>
+                        <h1 class="d-flex">
+                            <field name="priority" widget="priority" class="me-3"/>
+                            <field name="name" readonly="1"/>
+                        </h1>
+                    </div>
+                    <group>
+                        <!--                        <field name="name"/>-->
+                        <field name="employee_name" readonly="1"/>
+                        <field name="date"/>
+                        <field name="description"/>
+                        <!--                        <field name="order_lines"/>-->
+                    </group>
+                    <notebook>
+                        <page name="order_lines" string="Internal Work Order Lines">
+                            <field name="order_lines">
+                                <tree editable="top">
+                                    <field name="product_id"/>
+                                    <field name="product_uom_qty"/>
+                                    <field name="order_id"/>
+
+                                </tree>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids"/>
+                    <field name="activity_ids"/>
+                    <field name="message_ids"/>
+                </div>
+
+            </form>
+        </field>
+    </record>
+
+    <record id="seq_internal_sale" model="ir.sequence">
+        <field name="name">Internal Work Order</field>
+        <field name="code">internal.work.order</field>
+        <field name="prefix">IWO</field>
+        <field name="padding">5</field>
+    </record>
+     <record id="internal_work_order_module_user" model="res.groups">
+        <field name="name">Internal work Order Module</field>
+    </record>
+    <!--form and tree view-->
+    <record model="ir.actions.act_window" id="internal_work_order.action_window_new">
+        <field name="name">Internal Work Order</field>
+        <field name="res_model">internal.work.order</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <!--To get menu for the custom module-->
+    <menuitem name="Internal Work Order"
+              id="internal_work_order.menu_1_list1"
+              web_icon="internal_work_order,static/description/icon.png"
+              groups="internal_work_order.internal_work_order_module_user"/>
+
+    <menuitem name="Internal Work Order" id="internal_work_order.sub_menu1"
+              parent='internal_work_order.menu_1_list1'
+              action="internal_work_order.action_window_new"/>
+</odoo>

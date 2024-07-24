@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+
+<!--    To add user groups-->
+<!--    <record id="normal_user" model="res.groups">-->
+<!--        <field name="name">Normal users Group</field>-->
+<!--    </record>-->
+    <record id="admin_user" model="res.groups">
+        <field name="name">Department Approve For Admin</field>
+    </record>
+
+<!--tree, form view on purchase requisition-->
+    <record model="ir.actions.act_window" id="purchase_approve_requests">
+        <field name="name">Purchase Requests</field>
+        <field name="res_model">purchase.order</field>
+        <field name="view_mode">form,tree</field>
+        <field name="view_id" ref="purchase.purchase_order_kpis_tree"/>
+        <field name="context">{'_default_is_req_sent':False}</field>
+        <field name="domain">[('is_req_sent','=',True)]</field>
+        <field name="target">current</field>
+        <field name="help" type="html">
+            <p class="oe_view_nocontent_create">
+                Create a new record
+            </p>
+        </field>
+    </record>
+
+<!--add menu for the module-->
+    <menuitem
+            parent="purchase.menu_procurement_management"
+            id="purcahse_approval_menu"
+            name="Purchase Requests"
+            action="purchase_approve_requests"
+            groups="admin_user"/>
+
+</odoo>

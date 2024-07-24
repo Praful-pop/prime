@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+<!--    To add the quality check button to the PO Order lines for each product-->
+    <data>
+        <record id="view_stock_picking_line_form_inherit" model="ir.ui.view">
+            <field name="name">stock.picking.form.inherit</field>
+            <field name="model">stock.picking</field>
+            <field name="inherit_id" ref="stock.view_picking_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//page[@name='operations']//tree//field[@name='lot_ids']" position="after">
+                     <field name="quality_check_todo" column_invisible="True"/>
+
+                    <button string="Quality Checks" name="check_quality" type="object" class="oe_highlight"
+                            invisible="not quality_check_todo or state in ('done', 'cancel')"
+                            groups="quality.group_quality_user"
+                            data-hotkey="shift+z"/>
+
+                </xpath>
+            </field>
+        </record>
+
+    </data>
+
+</odoo>
+
+
+
+
+
